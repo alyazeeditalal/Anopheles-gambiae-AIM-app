@@ -30,16 +30,19 @@ jobs:
     
     - name: 📦 Install dependencies
       run: |
+        pip install --upgrade pip
         pip install marimo
         pip install pandas
         pip install numpy
         pip install scipy
         pip install zarr
-        pip install scikit-allel
         pip install matplotlib
         pip install seaborn
         pip install h5py
         pip install numexpr
+        pip install scikit-allel
+        # Verify scikit-allel installation
+        python -c "import allel; print('scikit-allel version:', allel.__version__)"
     
     - name: 📄 Export notebook
       run: |

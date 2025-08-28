@@ -41,10 +41,12 @@ jobs:
         pip install h5py
         pip install numexpr
         pip install scikit-allel
-        
-    - name: 📄 Export notebook
+        # Verify scikit-allel installation
+        python -c "import allel; print('scikit-allel version:', allel.__version__)"
+    
+    - name: 📄 Export notebook as static HTML
       run: |
-        marimo export html-wasm AIM_app.py -o ./dist --mode run
+        marimo export html AIM_app.py -o ./dist
     
     - name: 📁 Add .nojekyll file
       run: touch ./dist/.nojekyll

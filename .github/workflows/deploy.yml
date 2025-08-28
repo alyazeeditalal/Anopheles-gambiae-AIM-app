@@ -3,11 +3,17 @@ name: Deploy marimo app to GitHub Pages
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -25,13 +31,21 @@ jobs:
     - name: 📦 Install dependencies
       run: |
         pip install --upgrade pip
+        pip install marimo
         pip install "numpy<2.0"
-        pip install marimo pandas scipy zarr matplotlib seaborn h5py numexpr scikit-allel
+        pip install pandas
+        pip install scipy
+        pip install zarr
+        pip install matplotlib
+        pip install seaborn
+        pip install h5py
+        pip install numexpr
+        pip install scikit-allel
     
-    - name: 📄 Export and prepare files
+    - name: 📄 Export notebook
       run: |
-        mkdir -p dist
-        marimo export html-wasm AIM_app.py -o dist --mode run
+       mkdir -p dist
+        marimo export html AIM_app.py -o dist/index.html --mode run
         cp -r resources dist/ || true
         cp *.pdf dist/ || true
         echo "Files in dist:" && ls -la dist/
@@ -39,7 +53,7 @@ jobs:
     - name: 📦 Upload Pages Artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: dist
+        path: output_dir
 
   deploy:
     needs: build
@@ -47,6 +61,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
+    permissions:
+      pages: write
+      id-token: write
     
     steps:
     - name: 🌐 Deploy to GitHub Pages

@@ -31,8 +31,15 @@ jobs:
     - name: 📦 Install dependencies
       run: |
         pip install marimo
-        # Add any other dependencies your notebook needs
-        # pip install pandas numpy matplotlib etc.
+        pip install pandas
+        pip install numpy
+        pip install scipy
+        pip install zarr
+        pip install scikit-allel
+        pip install matplotlib
+        pip install seaborn
+        pip install h5py
+        pip install numexpr
     
     - name: 📄 Export notebook
       run: |

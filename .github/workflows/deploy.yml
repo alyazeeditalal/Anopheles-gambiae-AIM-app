@@ -44,9 +44,11 @@ jobs:
     
     - name: 📄 Export notebook
       run: |
-        mkdir -p output_dir
-        marimo export html AIM_app.py -o output_dir/index.html
-        ls -la output_dir
+       mkdir -p dist
+        marimo export html AIM_app.py -o dist/index.html --mode run
+        cp -r resources dist/ || true
+        cp *.pdf dist/ || true
+        echo "Files in dist:" && ls -la dist/
     
     - name: 📦 Upload Pages Artifact
       uses: actions/upload-pages-artifact@v3

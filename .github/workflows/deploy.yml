@@ -44,7 +44,8 @@ jobs:
     
     - name: 📄 Export notebook
       run: |
-        marimo export html AIM_app.py -o output_dir
+        mkdir -p output_dir
+        marimo export html AIM_app.py -o output_dir/index.html
         ls -la output_dir
     
     - name: 📦 Upload Pages Artifact

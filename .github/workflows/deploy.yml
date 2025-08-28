@@ -32,8 +32,8 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install marimo
+        pip install "numpy<2.0"
         pip install pandas
-        pip install numpy
         pip install scipy
         pip install zarr
         pip install matplotlib

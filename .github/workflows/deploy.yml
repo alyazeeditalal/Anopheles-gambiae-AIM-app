@@ -44,12 +44,13 @@ jobs:
     
     - name: 📄 Export notebook
       run: |
-        marimo export html AIM_app.py -o ./output
+        marimo export html AIM_app.py -o output_dir
+        ls -la output_dir
     
     - name: 📦 Upload Pages Artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./output
+        path: output_dir
 
   deploy:
     needs: build

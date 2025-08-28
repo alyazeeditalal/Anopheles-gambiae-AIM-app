@@ -1,0 +1,59 @@
+name: Deploy marimo app to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🛎️ Checkout
+      uses: actions/checkout@v4
+    
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: 📦 Install dependencies
+      run: |
+        pip install marimo
+        # Add any other dependencies your notebook needs
+        # pip install pandas numpy matplotlib etc.
+    
+    - name: 📄 Export notebook
+      run: |
+        marimo export html-wasm AIM_app.py -o ./dist --mode run
+    
+    - name: 📁 Add .nojekyll file
+      run: touch ./dist/.nojekyll
+    
+    - name: 📦 Upload Pages Artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: 🌐 Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

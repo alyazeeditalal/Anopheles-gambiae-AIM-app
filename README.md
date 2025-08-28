@@ -1,2 +1,2 @@
 # Anopheles-gambiae-AIM-app
-Ancestry informative markers analysis for Anopheles gambiae 
+Ancestroy informative markers analysis for Anopheles gambiae 

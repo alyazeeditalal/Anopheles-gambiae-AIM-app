@@ -31,7 +31,7 @@ jobs:
     - name: 📄 Export and prepare files
       run: |
         mkdir -p dist
-        marimo export html AIM_app.py -o dist/index.html
+        marimo export html-wasm AIM_app.py -o dist --mode run
         cp -r resources dist/ || true
         cp *.pdf dist/ || true
         echo "Files in dist:" && ls -la dist/

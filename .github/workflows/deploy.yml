@@ -41,20 +41,15 @@ jobs:
         pip install h5py
         pip install numexpr
         pip install scikit-allel
-        # Verify scikit-allel installation
-        python -c "import allel; print('scikit-allel version:', allel.__version__)"
     
-    - name: 📄 Export notebook as static HTML
+    - name: 📄 Export notebook
       run: |
-        marimo export html AIM_app.py -o ./dist
-    
-    - name: 📁 Add .nojekyll file
-      run: touch ./dist/.nojekyll
+        marimo export html AIM_app.py -o ./output
     
     - name: 📦 Upload Pages Artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./dist
+        path: ./output
 
   deploy:
     needs: build
@@ -62,6 +57,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
+    permissions:
+      pages: write
+      id-token: write
     
     steps:
     - name: 🌐 Deploy to GitHub Pages

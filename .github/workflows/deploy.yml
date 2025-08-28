@@ -41,9 +41,7 @@ jobs:
         pip install h5py
         pip install numexpr
         pip install scikit-allel
-        # Verify scikit-allel installation
-        python -c "import allel; print('scikit-allel version:', allel.__version__)"
-    
+        
     - name: 📄 Export notebook
       run: |
         marimo export html-wasm AIM_app.py -o ./dist --mode run
